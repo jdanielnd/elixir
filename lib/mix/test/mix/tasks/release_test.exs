@@ -803,8 +803,12 @@ defmodule Mix.Tasks.ReleaseTest do
 
         try do
           script = Path.absname(script_name)
-          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
-          assert String.trim_trailing(hello_world) == "hello_world"
+          {output, exit_code} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+
+          assert exit_code == 0,
+                 "Command failed with exit code #{exit_code} and output: #{output}"
+
+          assert String.trim_trailing(output) == "hello_world"
         after
           File.rm!(script_name)
         end
@@ -831,8 +835,12 @@ defmodule Mix.Tasks.ReleaseTest do
 
         try do
           script = Path.absname(Path.join("bin", script_name))
-          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
-          assert String.trim_trailing(hello_world) == "hello_world"
+          {output, exit_code} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+
+          assert exit_code == 0,
+                 "Command failed with exit code #{exit_code} and output: #{output}"
+
+          assert String.trim_trailing(output) == "hello_world"
         after
           File.rm_rf!("bin")
         end
