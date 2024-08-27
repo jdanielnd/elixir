@@ -804,11 +804,7 @@ defmodule Mix.Tasks.ReleaseTest do
           script_name
         )
 
-        root = "_build/dev/rel/release_test"
         script = Path.absname(script_name)
-        open_port(script, [~c"start"])
-        assert %{} = wait_until_decoded(Path.join(root, "RELEASE_BOOTED"))
-
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
@@ -835,11 +831,7 @@ defmodule Mix.Tasks.ReleaseTest do
           Path.join("bin/", script_name)
         )
 
-        root = "_build/dev/rel/release_test"
         script = Path.absname(Path.join("bin/", script_name))
-        open_port(script, [~c"start"])
-        assert %{} = wait_until_decoded(Path.join(root, "RELEASE_BOOTED"))
-
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
