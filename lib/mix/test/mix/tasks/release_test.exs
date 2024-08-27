@@ -820,7 +820,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        script_name = "bin/release_test"
+        script_name = "release_test"
 
         if match?({:win32, _}, :os.type()) do
           script_name = "#{script_name}.bat"
@@ -828,11 +828,11 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.ln_s!(
           Path.join("_build/dev/rel/release_test/bin/", script_name),
-          script_name
+          Path.join("bin/", script_name)
         )
 
         root = "_build/dev/rel/release_test"
-        script = Path.absname(script_name)
+        script = Path.absname(Path.join("bin/", script_name))
         open_port(script, [~c"start"])
         assert %{} = wait_until_decoded(Path.join(root, "RELEASE_BOOTED"))
 
