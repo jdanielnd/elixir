@@ -795,7 +795,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
         if match?({:win32, _}, :os.type()) do
           cmd = "mklink \"_build/dev/rel/release_test/bin/release_test\" \"release_test\""
-          :os.cmd(cmd)
+          System.cmd(cmd)
         else
           File.ln_s!(
             "_build/dev/rel/release_test/bin/release_test",
@@ -822,7 +822,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
         if match?({:win32, _}, :os.type()) do
           cmd = "mklink \"../_build/dev/rel/release_test/bin/release_test\" \"bin/release_test\""
-          :os.cmd(cmd)
+          System.cmd(cmd)
         else
           File.ln_s!(
             "../_build/dev/rel/release_test/bin/release_test",
