@@ -800,6 +800,8 @@ defmodule Mix.Tasks.ReleaseTest do
           )
 
           script = Path.absname("release_test")
+          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+          assert String.trim_trailing(hello_world) == "hello_world"
         else
           File.ln_s!(
             Path.absname("_build/dev/rel/release_test/bin/release_test"),
@@ -807,10 +809,9 @@ defmodule Mix.Tasks.ReleaseTest do
           )
 
           script = Path.absname("release_test.bat")
+          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+          assert String.trim_trailing(hello_world) == "hello_world"
         end
-
-        {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
-        assert String.trim_trailing(hello_world) == "hello_world"
       end)
     end)
   end
@@ -831,6 +832,8 @@ defmodule Mix.Tasks.ReleaseTest do
           )
 
           script = Path.absname("bin/release_test.bat")
+          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+          assert String.trim_trailing(hello_world) == "hello_world"
         else
           File.ln_s!(
             Path.absname("_build/dev/rel/release_test/bin/release_test"),
@@ -838,10 +841,9 @@ defmodule Mix.Tasks.ReleaseTest do
           )
 
           script = Path.absname("bin/release_test")
+          {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
+          assert String.trim_trailing(hello_world) == "hello_world"
         end
-
-        {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
-        assert String.trim_trailing(hello_world) == "hello_world"
       end)
     end)
   end
