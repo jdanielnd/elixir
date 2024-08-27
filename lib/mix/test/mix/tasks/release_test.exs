@@ -793,14 +793,13 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
+        original_path = Path.absname("_build/dev/rel/release_test")
+        symlink_path = Path.absname("release_test")
+
         if match?({:win32, _}, :os.type()) do
-          cmd = "mklink \"_build/dev/rel/release_test/bin/release_test\" \"release_test\""
-          System.cmd(cmd)
+          System.cmd("mklink", [original_path, symlink_path])
         else
-          File.ln_s!(
-            "_build/dev/rel/release_test/bin/release_test",
-            "release_test"
-          )
+          File.ln_s!(original_path, symlink_path)
         end
 
         script = Path.absname("release_test")
@@ -820,14 +819,13 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
+        original_path = "../_build/dev/rel/release_test/bin/release_test"
+        symlink_path = "bin/release_test"
+
         if match?({:win32, _}, :os.type()) do
-          cmd = "mklink \"../_build/dev/rel/release_test/bin/release_test\" \"bin/release_test\""
-          System.cmd(cmd)
+          System.cmd("mklink", [original_path, symlink_path])
         else
-          File.ln_s!(
-            "../_build/dev/rel/release_test/bin/release_test",
-            "bin/release_test"
-          )
+          File.ln_s!(original_path, symlink_path)
         end
 
         script = Path.absname("bin/release_test")
