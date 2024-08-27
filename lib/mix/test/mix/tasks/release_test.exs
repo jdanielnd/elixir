@@ -793,12 +793,22 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        File.ln_s!(
-          "_build/dev/rel/release_test/bin/release_test",
-          "release_test"
-        )
+        if match?(%{win32, _}, :os.type()) do
+          File.ln_s!(
+            Path.absname("_build/dev/rel/release_test/bin/release_test.bat"),
+            "release_test.bat"
+          )
 
-        script = Path.absname("release_test")
+          script = Path.absname("release_test")
+        else
+          File.ln_s!(
+            Path.absname("_build/dev/rel/release_test/bin/release_test"),
+            "release_test"
+          )
+
+          script = Path.absname("release_test.bat")
+        end
+
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
@@ -814,12 +824,22 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        File.ln_s!(
-          "../_build/dev/rel/release_test/bin/release_test",
-          "bin/release_test"
-        )
+        if match?(%{win32, _}, :os.type()) do
+          File.ln_s!(
+            Path.absname("_build/dev/rel/release_test/bin/release_test.bat"),
+            "bin/release_test.bat"
+          )
 
-        script = Path.absname("bin/release_test")
+          script = Path.absname("bin/release_test.bat")
+        else
+          File.ln_s!(
+            Path.absname("_build/dev/rel/release_test/bin/release_test"),
+            "bin/release_test"
+          )
+
+          script = Path.absname("bin/release_test")
+        end
+
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
