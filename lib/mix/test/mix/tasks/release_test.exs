@@ -787,7 +787,9 @@ defmodule Mix.Tasks.ReleaseTest do
   end
 
   test "works properly with an absolute symlink to release" do
-    in_fixture("release_test", fn ->
+    tmp_dir = Path.join(inspect(__MODULE__), "absolute_symlink_to_release")
+
+    in_fixture("release_test", tmp_dir, fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
@@ -804,7 +806,9 @@ defmodule Mix.Tasks.ReleaseTest do
   end
 
   test "works properly with a relative symlink to release" do
-    in_fixture("release_test", fn ->
+    tmp_dir = Path.join(inspect(__MODULE__), "relative_symlink_to_release")
+
+    in_fixture("release_test", tmp_dir, fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
