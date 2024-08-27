@@ -791,13 +791,19 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
+        script_name = "release_test"
+
+        if match?({:win32, _}, :os.type()) do
+          script_name = "#{script_name}.bat"
+        end
+
         File.ln_s!(
-          "_build/dev/rel/release_test/bin/release_test",
-          "release_test"
+          Path.join("_build/dev/rel/release_test/bin/", script_name),
+          script_name
         )
 
         root = "_build/dev/rel/release_test"
-        script = Path.absname("release_test")
+        script = Path.absname(script_name)
         open_port(script, [~c"start"])
         assert %{} = wait_until_decoded(Path.join(root, "RELEASE_BOOTED"))
 
@@ -814,13 +820,19 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
+        script_name = "bin/release_test"
+
+        if match?({:win32, _}, :os.type()) do
+          script_name = "#{script_name}.bat"
+        end
+
         File.ln_s!(
-          "../_build/dev/rel/release_test/bin/release_test",
-          "bin/release_test"
+          Path.join("_build/dev/rel/release_test/bin/", script_name),
+          script_name
         )
 
         root = "_build/dev/rel/release_test"
-        script = Path.absname("bin/release_test")
+        script = Path.absname(script_name)
         open_port(script, [~c"start"])
         assert %{} = wait_until_decoded(Path.join(root, "RELEASE_BOOTED"))
 
