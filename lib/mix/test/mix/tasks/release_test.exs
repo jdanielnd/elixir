@@ -799,7 +799,7 @@ defmodule Mix.Tasks.ReleaseTest do
             "release_test.bat"
           )
 
-          script = Path.absname("release_test")
+          script = Path.absname("release_test.bat")
           {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
           assert String.trim_trailing(hello_world) == "hello_world"
         else
