@@ -793,8 +793,8 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        if windows? do
-          cmd = 'mklink "_build/dev/rel/release_test/bin/release_test" "release_test"'
+        if match?({:win32, _}, :os.type()) do
+          cmd = "mklink \"_build/dev/rel/release_test/bin/release_test\" \"release_test\""
           :os.cmd(cmd)
         else
           File.ln_s!(
@@ -820,8 +820,8 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        if windows? do
-          cmd = 'mklink "../_build/dev/rel/release_test/bin/release_test" "bin/release_test"'
+        if match?({:win32, _}, :os.type()) do
+          cmd = "mklink \"../_build/dev/rel/release_test/bin/release_test\" \"bin/release_test\""
           :os.cmd(cmd)
         else
           File.ln_s!(
