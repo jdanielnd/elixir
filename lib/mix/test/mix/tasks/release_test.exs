@@ -820,7 +820,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        if windows?
+        if windows? do
           cmd = 'mklink "../_build/dev/rel/release_test/bin/release_test" "bin/release_test"'
           :os.cmd(cmd)
         else
