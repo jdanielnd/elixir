@@ -797,6 +797,8 @@ defmodule Mix.Tasks.ReleaseTest do
         )
 
         script = Path.absname("release_test")
+        open_port(script, [~c"start"])
+
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
@@ -816,6 +818,8 @@ defmodule Mix.Tasks.ReleaseTest do
         )
 
         script = Path.absname("bin/release_test")
+        open_port(script, [~c"start"])
+
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
