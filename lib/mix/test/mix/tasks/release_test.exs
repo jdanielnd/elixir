@@ -797,7 +797,7 @@ defmodule Mix.Tasks.ReleaseTest do
         symlink_path = Path.absname("release_test")
 
         if match?({:win32, _}, :os.type()) do
-          System.cmd("mklink", [original_path, symlink_path])
+          System.cmd("mklink", [symlink_path, original_path])
         else
           File.ln_s!(original_path, symlink_path)
         end
@@ -823,7 +823,7 @@ defmodule Mix.Tasks.ReleaseTest do
         symlink_path = "bin/release_test"
 
         if match?({:win32, _}, :os.type()) do
-          System.cmd("mklink", [original_path, symlink_path])
+          System.cmd("mklink", [symlink_path, original_path])
         else
           File.ln_s!(original_path, symlink_path)
         end
