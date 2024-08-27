@@ -791,7 +791,6 @@ defmodule Mix.Tasks.ReleaseTest do
 
     in_fixture("release_test", tmp_dir, fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
-        root = Path.absname("_build/dev/rel/release_test")
         Mix.Task.run("release")
 
         File.ln_s!(
