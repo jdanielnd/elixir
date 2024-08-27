@@ -786,50 +786,34 @@ defmodule Mix.Tasks.ReleaseTest do
     end)
   end
 
+  @tag :unix
   test "works properly with an absolute symlink to release" do
-    tmp_dir = Path.join(inspect(__MODULE__), "absolute_symlink_to_release")
-
-    in_fixture("release_test", tmp_dir, fn ->
+    in_fixture("release_test", fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        original_path = Path.absname("_build/#{Mix.env()}/rel/release_test/bin/release_test")
-        symlink_path = Path.absname("release_test")
+        File.ln_s!(
+          Path.absname("_build/#{Mix.env()}/rel/release_test/bin/release_test"),
+          Path.absname("release_test")
+        )
 
-        if match?({:win32, _}, :os.type()) do
-          System.cmd("mklink", [symlink_path, original_path])
-        else
-          File.ln_s!(original_path, symlink_path)
-        end
-
-        script = Path.absname(symlink_path)
-
+        script = Path.absname("release_test")
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
     end)
   end
 
+  @tag :unix
   test "works properly with a relative symlink to release" do
-    tmp_dir = Path.join(inspect(__MODULE__), "relative_symlink_to_release")
-
     in_fixture("release_test", tmp_dir, fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
         File.mkdir!("bin")
+        File.ln_s!("../_build/#{Mix.env()}/rel/release_test/bin/release_test", "bin/release_test")
 
-        original_path = "../_build/#{Mix.env()}/rel/release_test/bin/release_test"
-        symlink_path = "bin/release_test"
-
-        if match?({:win32, _}, :os.type()) do
-          System.cmd("mklink", [symlink_path, original_path])
-        else
-          File.ln_s!(original_path, symlink_path)
-        end
-
-        script = Path.absname(symlink_path)
-
+        script = Path.absname("bin/release_test")
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
       end)
