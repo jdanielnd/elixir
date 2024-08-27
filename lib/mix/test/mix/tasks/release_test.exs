@@ -793,7 +793,7 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        if match?(%{win32, _}, :os.type()) do
+        if match?({:win32, _}, :os.type()) do
           File.ln_s!(
             Path.absname("_build/dev/rel/release_test/bin/release_test.bat"),
             "release_test.bat"
@@ -824,7 +824,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        if match?(%{win32, _}, :os.type()) do
+        if match?({:win32, _}, :os.type()) do
           File.ln_s!(
             Path.absname("_build/dev/rel/release_test/bin/release_test.bat"),
             "bin/release_test.bat"
