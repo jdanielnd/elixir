@@ -799,7 +799,7 @@ defmodule Mix.Tasks.ReleaseTest do
           "release_test"
         )
 
-        script = Path.join(root, "bin/release_test")
+        script = Path.absname("release_test")
 
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
