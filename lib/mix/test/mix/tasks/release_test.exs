@@ -793,7 +793,7 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        original_path = Path.absname("_build/dev/rel/release_test")
+        original_path = Path.absname("_build/dev/rel/release_test/bin/release_test")
         symlink_path = Path.absname("release_test")
 
         if match?({:win32, _}, :os.type()) do
@@ -802,7 +802,7 @@ defmodule Mix.Tasks.ReleaseTest do
           File.ln_s!(original_path, symlink_path)
         end
 
-        script = Path.absname("release_test")
+        script = Path.absname(symlink_path)
 
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
@@ -828,7 +828,7 @@ defmodule Mix.Tasks.ReleaseTest do
           File.ln_s!(original_path, symlink_path)
         end
 
-        script = Path.absname("bin/release_test")
+        script = Path.absname(symlink_path)
 
         {hello_world, 0} = System.cmd(script, ["eval", "IO.puts :hello_world"])
         assert String.trim_trailing(hello_world) == "hello_world"
