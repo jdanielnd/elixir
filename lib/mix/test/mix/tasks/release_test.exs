@@ -806,7 +806,7 @@ defmodule Mix.Tasks.ReleaseTest do
 
   @tag :unix
   test "works properly with a relative symlink to release" do
-    in_fixture("release_test", tmp_dir, fn ->
+    in_fixture("release_test", fn ->
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
