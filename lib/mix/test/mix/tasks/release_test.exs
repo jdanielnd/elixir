@@ -793,10 +793,15 @@ defmodule Mix.Tasks.ReleaseTest do
       Mix.Project.in_project(:release_test, ".", fn _ ->
         Mix.Task.run("release")
 
-        File.ln_s!(
-          "_build/dev/rel/release_test/bin/release_test",
-          "release_test"
-        )
+        if windows? do
+          cmd = 'mklink "_build/dev/rel/release_test/bin/release_test" "release_test"'
+          :os.cmd(cmd)
+        else
+          File.ln_s!(
+            "_build/dev/rel/release_test/bin/release_test",
+            "release_test"
+          )
+        end
 
         script = Path.absname("release_test")
 
@@ -815,10 +820,15 @@ defmodule Mix.Tasks.ReleaseTest do
 
         File.mkdir!("bin")
 
-        File.ln_s!(
-          "../_build/dev/rel/release_test/bin/release_test",
-          "bin/release_test"
-        )
+        if windows?
+          cmd = 'mklink "../_build/dev/rel/release_test/bin/release_test" "bin/release_test"'
+          :os.cmd(cmd)
+        else
+          File.ln_s!(
+            "../_build/dev/rel/release_test/bin/release_test",
+            "bin/release_test"
+          )
+        end
 
         script = Path.absname("bin/release_test")
 
