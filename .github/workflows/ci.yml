@@ -100,7 +100,7 @@ jobs:
       - name: Elixir test suite
         run: |
           Remove-Item 'c:/Windows/System32/drivers/etc/hosts'
-          make --keep-going test_elixir
+          make --keep-going test_mix
 
   check_posix_compliant:
     name: Check POSIX-compliant
